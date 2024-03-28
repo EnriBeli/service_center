@@ -1,9 +1,14 @@
 /********** Template CSS **********/
 :root {
-    --primary: #EB1616;
+    --primary: #2b59ff;
     --secondary: #191C24;
     --light: #6C7293;
     --dark: #000000;
+}
+
+.div-1 {
+    display: flex;
+    justify-content: right;
 }
 
 .back-to-top {

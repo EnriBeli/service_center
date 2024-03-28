@@ -41,7 +41,7 @@ if($fila = mysqli_fetch_array($result))
 
     if($catusr==1)
     {
-        $pagina = '../../views/views_admin/index.php';
+        $pagina = '../../views/users/index.php';
         echo("<script>alert('Bienvenido a tu sesion: " . $usuario .
         " " . $tipousuario ." , has clic en aceptar para continuar');");
 

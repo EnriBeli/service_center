@@ -59,15 +59,15 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="../users/index.php" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Servicios</a>
+                    <a href="../../views/servicios/serviciointernoview.php" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Servicios</a>
                     <a href="../users/user.php" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Ver Usuarios</a>
                     <!-- <a href="../users/create_clientes.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Clientes</a> -->
                     <!--<a href="../../views/products/products.php" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Business</a>-->
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-item nav-link" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Agregar Servicio</a> <!-- no tiene contenido -->
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="../servicios/acondicionadores.php" class="dropdown-item">Acondicionadores de Voltaje</a>
-                            <a href="../servicios/ups.php" class="dropdown-item">Equipos UPS</a>
+                            <!-- <a href="../servicios/acondicionadores.php" class="dropdown-item">Acondicionadores de Voltaje</a> -->
+                            <!-- <a href="../servicios/ups.php" class="dropdown-item">Equipos UPS</a> -->
                             <a href="../servicios/serviciointerno.php" class="dropdown-item">Servicios</a>
                         </div>
                     </div>

@@ -11,16 +11,11 @@
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 </head>
 <body background="../Imagenes/gby.jpg" width="2500" weight="1000">
-
+   <br>
+   <br>
 
     <h2 class="text-center">Servicios Agregados</h2>
 
-    <div class="text-center">
-        <p class="text-center fw-bold">Para ver la lista de servicios guardados, seleccione un servicio</p>
-        <a href="../../views/servicios/acandicionadoresview.php" type="button" class="btn btn-outline-primary">ACONDICIONADORES DE VOLTAJE</a>
-        <a href="../../views/servicios/equipoupsview.php" type="button" class="btn btn-outline-warning">EQUIPOS UPS</a>
-        <a href="../../views/servicios/serviciointernoview.php" type="button" class="btn btn-outline-success">SERVICIOS GENERALES</a>
-    </div>
     <br>
 
          <!--Inicia contenedor busqueda Equipos UPS -->
@@ -29,7 +24,6 @@
             <div class="row justify-content-center">
                 <div class="col-5">
                     <form class="d-flex" method="GET">
-                        <p class="text-center fw-bold">SERVICIOS GENERALES</p>
                         <input class="form-control me-2" type="serch" placeholder="Buscar usuario" name="serch">
                         <button class="btn btn-warning bg-warning" type="submit" name="enviar"><b>Buscar</b></button>
                     </form>
@@ -90,6 +84,7 @@
                                 <th><?php echo $row['email'] ?></th>
                                 <th><?php echo $row['udn'] ?></th>
                                 <th><?php echo $row['responsables_udn']?></th>
+                                <!--- <td><img src="data:image/jpeg;base64,<?php echo base64_encode($row['evidencia_durante1']); ?>" width="100" height="100" alt="Evidencia Durante 1"></td> -->
                                 <th><a type="button" href="" class="btn btn-warning">PDF</a></th>
                                 </tr>
                         <?php } ?>

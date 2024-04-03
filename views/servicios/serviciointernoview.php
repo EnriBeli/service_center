@@ -85,7 +85,7 @@
                                 <th><?php echo $row['udn'] ?></th>
                                 <th><?php echo $row['responsables_udn']?></th>
                                 <!--- <td><img src="data:image/jpeg;base64,<?php echo base64_encode($row['evidencia_durante1']); ?>" width="100" height="100" alt="Evidencia Durante 1"></td> -->
-                                <th><a type="button" href="" class="btn btn-warning">PDF</a></th>
+                                <th><a type="button" href="plantilla.php?folio=<?php echo $row['folio']; ?>" class="btn btn-warning">PDF</a></th>
                                 </tr>
                         <?php } ?>
                     </tbody>

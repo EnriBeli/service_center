@@ -24,7 +24,7 @@
             <div class="row justify-content-center">
                 <div class="col-5">
                     <form class="d-flex" method="GET">
-                        <input class="form-control me-2" type="serch" placeholder="Buscar usuario" name="serch">
+                        <input class="form-control me-2" type="serch" placeholder="Buscar servicio" name="serch">
                         <button class="btn btn-warning bg-warning" type="submit" name="enviar"><b>Buscar</b></button>
                     </form>
                 </div>
@@ -63,6 +63,7 @@
                             <th class="text-center">Email</th>
                             <th class="text-center">Udn</th>
                             <th class="text-center">Responsable Udn</th>
+                            <th class="text-center">Firmar Servicio</th>
                             <th class="text-center">Descargar PDF</th>
                             <th></th>
                         </tr>
@@ -84,8 +85,13 @@
                                 <th><?php echo $row['email'] ?></th>
                                 <th><?php echo $row['udn'] ?></th>
                                 <th><?php echo $row['responsables_udn']?></th>
-                                <!--- <td><img src="data:image/jpeg;base64,<?php echo base64_encode($row['evidencia_durante1']); ?>" width="100" height="100" alt="Evidencia Durante 1"></td> -->
-                                <th><a type="button" href="plantilla.php?folio=<?php echo $row['folio']; ?>" class="btn btn-warning">PDF</a></th>
+                                <th>
+                                    <?php if(empty($row['firma'])): ?>
+                                        <a href="firma.php?folio=<?php echo $row['folio']; ?>" class="btn btn-primary">Firmar</a>
+                                    <?php endif; ?>
+                                </th>
+                                <!-- <th><a href="firma.php?folio=<?php echo $row['folio']; ?>" class="btn btn-primary">Firmar</a></th> -->
+                                <th><a type="button" href="plantilla.php?folio=<?php echo $row['folio']; ?>" class="btn btn-primary">PDF</a></th>
                                 </tr>
                         <?php } ?>
                     </tbody>

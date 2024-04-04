@@ -32,6 +32,14 @@
 </head>
 
 <body>
+<?php
+        @session_start();
+        if($_SESSION['existe'] != 'SI'){
+            header('Location: ../../index.php');
+            exit(0);
+        }
+    ?>
+
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -45,19 +53,9 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-secondary navbar-dark">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-info"><i class="fa fa-user-edit me-2"></i>KGE</h3>
+                <a href="#" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-info"><i class="fa "></i>SERVICE CENTER KGE</h3>
                 </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                        <img class="rounded-circle" src="../includes/img/user.png" alt="" >
-                        <div class="bg-info rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">User</h6>
-                        <span>Admin</span>
-                    </div>
-                </div>
                 <div class="navbar-nav w-100">
                     <a href="../../views/servicios/serviciointernoview.php" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Servicios</a>
                     <a href="../users/user.php" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Ver Usuarios</a>
@@ -67,11 +65,11 @@
                         <a href="#" class="nav-item nav-link" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Agregar Servicio</a> <!-- no tiene contenido -->
                         <div class="dropdown-menu bg-transparent border-0">
                             <!-- <a href="../servicios/acondicionadores.php" class="dropdown-item">Acondicionadores de Voltaje</a> -->
-                            <!-- <a href="../servicios/ups.php" class="dropdown-item">Equipos UPS</a> -->
+                            <a href="../servicios/firma.php" class="dropdown-item">firma</a>
                             <a href="../servicios/serviciointerno.php" class="dropdown-item">Servicios</a>
                         </div>
                     </div>
-                    <a href="../../includes/php/exit.php" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Salir</a> <!-- no tiene contenido -->
+                   <!--  <a href="../../includes/php/exit.php" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Salir</a> no tiene contenido -->
                 </div>
             </nav>
         </div>
@@ -105,15 +103,15 @@
                         </a>
                         
                     </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex"></span>
+                    <div  class="nav-item dropdown">
+                        <a href="#"  class="nav-link dropdown-toggle fa fa-user-edit me-2" data-bs-toggle="dropdown">
+                            <span class="d-none d-lg-inline-flex"><?php 
+                                    $usuarioactual=$_SESSION ['tx_username']; echo $usuarioactual
+                                ?></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
+                            <button onclick="logout()" class="dropdown-item">Log Out</button>
                         </div>
                     </div>
                 </div>
@@ -125,7 +123,15 @@
 
           <!-- CODIGOS DE ACTIVOS FIJOS. -->
 </body>
+
 <script>
+    // Función para realizar el logout
+    function logout() {
+        // Aquí puedes realizar cualquier acción necesaria antes de cerrar la sesión, como enviar una solicitud AJAX al servidor
+        // Luego, redirige al usuario a la página de logout
+        window.location.href = "../../includes/php/exit.php";
+    }
+
     $(document).ready(function(){
         $('.dropdown-toggle').dropdown();
     });

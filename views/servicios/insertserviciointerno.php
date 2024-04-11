@@ -115,21 +115,35 @@ if(isset($_POST['submit'])){
     $nombre_recibido=$_POST['nombre_recibido'];
     $nombre_area=$_POST['nombre_area'];
     
-    // Otras variables...
 
-    // Recibimos las imágenes
-    $evidencia_antes1 = addslashes(file_get_contents($_FILES['evidencia_antes1']['tmp_name']));
-    $evidencia_antes2 = addslashes(file_get_contents($_FILES['evidencia_antes2']['tmp_name']));
-    $evidencia_antes3 = addslashes(file_get_contents($_FILES['evidencia_antes3']['tmp_name']));
+    $evidencia_antes1 = $_FILES['evidencia_antes1']['name'];
+    $evidencia_antes2 = $_FILES['evidencia_antes2']['name'];
+    $evidencia_antes3 = $_FILES['evidencia_antes3']['name'];
 
-    $evidencia_durante1 = addslashes(file_get_contents($_FILES['evidencia_durante1']['tmp_name']));
-    $evidencia_durante2 = addslashes(file_get_contents($_FILES['evidencia_durante2']['tmp_name']));
-    $evidencia_durante3 = addslashes(file_get_contents($_FILES['evidencia_durante3']['tmp_name']));
+    $evidencia_durante1 = $_FILES['evidencia_durante1']['name'];
+    $evidencia_durante2 = $_FILES['evidencia_durante2']['name'];
+    $evidencia_durante3 = $_FILES['evidencia_durante3']['name'];
 
-    $evidencia_despues1 = addslashes(file_get_contents($_FILES['evidencia_despues1']['tmp_name']));
-    $evidencia_despues2 = addslashes(file_get_contents($_FILES['evidencia_despues2']['tmp_name']));
-    $evidencia_despues3 = addslashes(file_get_contents($_FILES['evidencia_despues3']['tmp_name']));
+    $evidencia_despues1 = $_FILES['evidencia_despues1']['name'];
+    $evidencia_despues2 = $_FILES['evidencia_despues2']['name'];
+    $evidencia_despues3 = $_FILES['evidencia_despues3']['name'];
+
+    $uploadDir = "../upload/";
+
+    //Mover las imagenes desde el directorio tamporal a la carpeta de destino
+    move_uploaded_file($_FILES['evidencia_antes1']['tmp_name'], $uploadDir . $evidencia_antes1);
+    move_uploaded_file($_FILES['evidencia_antes2']['tmp_name'], $uploadDir . $evidencia_antes2);
+    move_uploaded_file($_FILES['evidencia_antes3']['tmp_name'], $uploadDir . $evidencia_antes3);
     
+    move_uploaded_file($_FILES['evidencia_durante1']['tmp_name'], $uploadDir . $evidencia_durante1);
+    move_uploaded_file($_FILES['evidencia_durante2']['tmp_name'], $uploadDir . $evidencia_durante2);
+    move_uploaded_file($_FILES['evidencia_durante3']['tmp_name'], $uploadDir . $evidencia_durante3);
+
+    move_uploaded_file($_FILES['evidencia_despues1']['tmp_name'], $uploadDir . $evidencia_despues1);
+    move_uploaded_file($_FILES['evidencia_despues2']['tmp_name'], $uploadDir . $evidencia_despues2);
+    move_uploaded_file($_FILES['evidencia_despues3']['tmp_name'], $uploadDir . $evidencia_despues3);
+
+
 
     // Preparamos la consulta SQL para insertar los datos en la base de datos
     $consulta = "INSERT INTO tbl_serviciosgenerales (fecha, cliente, contacto, tel_ext, email, udn, temperatura, humedad, responsables_udn, ubicacion_equipo, aire_acondicionado,
@@ -156,9 +170,8 @@ if(isset($_POST['submit'])){
                     '$listado14', '$listado14_obs', '$listado15', '$listado15_obs', '$listado16', '$listado16_obs', '$listado17', '$listado17_obs', '$listado18', '$listado18_obs', '$listado19', '$listado19_obs',
                     '$listado20', '$listado20_obs', '$listado21', '$listado21_obs', '$listado22', '$listado22_obs', '$listado23', '$listado23_obs', '$listado24', '$listado24_obs',
                     '$comentario_final', '$notas_importantes', '$nombre_ingtecnico' , '$nombre_recibido', '$nombre_area',
-                    '$evidencia_antes1', '$evidencia_antes2', '$evidencia_antes3', 
-                    '$evidencia_durante1', '$evidencia_durante2', '$evidencia_durante3', 
-                    '$evidencia_despues1', '$evidencia_despues2', '$evidencia_despues3')";
+                    '$evidencia_antes1', '$evidencia_antes2', '$evidencia_antes3', '$evidencia_durante1', '$evidencia_durante2', '$evidencia_durante3', '$evidencia_despues1'
+                    , '$evidencia_despues2', '$evidencia_despues3')";
 
     // Ejecutamos la consulta
     if(mysqli_query($conexion, $consulta)){

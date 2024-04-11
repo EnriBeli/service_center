@@ -1,8 +1,51 @@
 <?php
 require('../../fpdf/fpdf.php');
 
+// Obtener los datos del formulario de la base de datos
+$con = mysqli_connect("localhost", "root", "", "kge");
+$folio = isset($_GET['folio']) ? $_GET['folio'] : '';
+$sql = "SELECT * FROM tbl_serviciosgenerales WHERE folio = '$folio'";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+
+// Obtener las rutas de las imágenes
+$evidencia_antes1 = $row['evidencia_antes1'];
+$evidencia_antes2 = $row['evidencia_antes2'];
+$evidencia_antes3 = $row['evidencia_antes3'];
+$evidencia_durante1 = $row['evidencia_durante1'];
+$evidencia_durante2 = $row['evidencia_durante2'];
+$evidencia_durante3 = $row['evidencia_durante3'];
+$evidencia_despues1 = $row['evidencia_despues1'];
+$evidencia_despues2 = $row['evidencia_despues2'];
+$evidencia_despues3 = $row['evidencia_despues3'];
+$firmaRecibido = $row['firma'];
+$firmaTecnico = $row['firmaingtec'];
+
+
+$uploadDir = '../upload/';
+
+$rutaBase = __DIR__;
+$ruta_antes1 = $rutaBase . DIRECTORY_SEPARATOR . $uploadDir . $evidencia_antes1;
+$ruta_antes2 = $rutaBase . DIRECTORY_SEPARATOR . $uploadDir . $evidencia_antes2;
+$ruta_antes3 = $rutaBase . DIRECTORY_SEPARATOR . $uploadDir . $evidencia_antes3;
+
+$ruta_durante1 = $rutaBase . DIRECTORY_SEPARATOR .$uploadDir . $evidencia_durante1;
+$ruta_durante2 = $rutaBase . DIRECTORY_SEPARATOR .$uploadDir . $evidencia_durante2;
+$ruta_durante3 = $rutaBase . DIRECTORY_SEPARATOR .$uploadDir . $evidencia_durante3;
+
+$ruta_despues1 = $rutaBase . DIRECTORY_SEPARATOR .$uploadDir . $evidencia_despues1;
+$ruta_despues2 = $rutaBase . DIRECTORY_SEPARATOR .$uploadDir . $evidencia_despues2;
+$ruta_despues3 = $rutaBase . DIRECTORY_SEPARATOR .$uploadDir . $evidencia_despues3;
+
+$rutaFirmaRecibido = $rutaBase . DIRECTORY_SEPARATOR . $uploadDir . $firmaRecibido;
+$rutaFirmaTecnico = $rutaBase . DIRECTORY_SEPARATOR . $uploadDir . $firmaTecnico;
+
+// Verificar si $firmaRecibido y $firmaTecnico están definidos
+$firmaRecibido = isset($row['firma']) ? $row['firma'] : '';
+$firmaTecnico = isset($row['firmaingtec']) ? $row['firmaingtec'] : '';
+
 //Función para generar el PDF con los datos
-function generarPDF($datos) 
+function generarPDF($datos, $evidencia_antes1, $evidencia_antes2, $evidencia_antes3, $evidencia_durante1, $evidencia_durante2, $evidencia_durante3, $evidencia_despues1, $evidencia_despues2, $evidencia_despues3, $rutaFirmaTecnico, $rutaFirmaRecibido)
 {
 
     //Instancia del PDF
@@ -59,7 +102,7 @@ function generarPDF($datos)
 
     // Segunda fila
     $pdf->Cell(20, 10, 'Temperatura:', 1, 0, 'L');
-    $pdf->Cell(60, 10, isset($datos['temperatura']) ? $datos['temperatura'] : '', 1, 0);
+    $pdf->Cell(60, 10, utf8_decode(isset($datos['temperatura']) ? $datos['temperatura'] : ''), 1, 0);
     $pdf->Cell(30, 10, utf8_decode('Ubicación del Equipo:'), 1, 0, 'L');
     $pdf->Cell(80, 10, isset($datos['ubicacion_equipo']) ? utf8_decode($datos['ubicacion_equipo']) : '', 1, 1);
 
@@ -75,7 +118,7 @@ function generarPDF($datos)
 
     // Tabla de información del equipo
     $pdf->SetFont('Arial', '', 6); // Reducir tamaño de fuente
-    $columnWidths = array(30, 30, 30, 20, 20, 20, 40); // Anchos de columna
+    $columnWidths = array(30, 30, 30, 15, 15, 15, 55); // Anchos de columna
     $pdf->SetFillColor(251, 190, 143);
     $pdf->Cell($columnWidths[0], 10, '', 1, 0, 'C', true); // Celdas vacías para los encabezados
     $pdf->Cell($columnWidths[1], 10, '', 1, 0, 'C', true);
@@ -165,7 +208,7 @@ function generarPDF($datos)
         array(utf8_decode('Verificación y eliminación de sulfataciones.'), isset($datos['listado15']) ? $datos['listado15'] : '', isset($datos['listado15_obs']) ? $datos['listado15_obs'] : ''),
         array(utf8_decode('Revisión y apriete de terminales flojas.'), isset($datos['listado16']) ? $datos['listado16'] : '', isset($datos['listado16_obs']) ? $datos['listado16_obs'] : ''),
         array(utf8_decode('Engrasado en terminales de baterías, (cuando sea necesario).'), isset($datos['listado17']) ? $datos['listado17'] : '', isset($datos['listado17_obs']) ? $datos['listado17_obs'] : ''),
-        array(utf8_decode('Verificación de voltaje en vacío.'), isset($datos['listado18']) ? $datos['listado18'] : '', isset($datos['listado18_obs']) ? $datos['listado18'] : ''),
+        array(utf8_decode('Verificación de voltaje en vacío.'), isset($datos['listado18']) ? $datos['listado18'] : '', isset($datos['listado18_obs']) ? $datos['listado18_obs'] : ''),
         array(utf8_decode('Verificación del voltaje de batería, aplicando descarga.'), isset($datos['listado19']) ? $datos['listado19'] : '', isset($datos['listado19_obs']) ? $datos['listado19_obs'] : ''),
         array(utf8_decode('Revisión del funcionamiento del Inversor.'), isset($datos['listado20']) ? $datos['listado20'] : '', isset($datos['listado20_obs']) ? $datos['listado20_obs'] : ''),
         array(utf8_decode('Revisión del funcionamiento del Rectificador.'), isset($datos['listado21']) ? $datos['listado21'] : '', isset($datos['listado21_obs']) ? $datos['listado21_obs'] : ''),
@@ -181,7 +224,7 @@ function generarPDF($datos)
         $y = $pdf->GetY();
         
         // Imprimir la celda MultiCell para la primera columna
-        $pdf->MultiCell($columnWidths[0], 8, $fila[0], 1, 'L', false);
+        $pdf->MultiCell($columnWidths[0], 5.5, $fila[0], 1, 'L', false);
         
         $height = $pdf->GetY() - $y;
         
@@ -235,7 +278,6 @@ function generarPDF($datos)
     $datos = array(
         array('Ingeniero de Servicio:', utf8_decode('Recibió Servicio a satisfacción: IMA - TI:'), utf8_decode('Nombre área:')),
         array(utf8_decode(isset($datos['nombre_ingtecnico']) ? $datos['nombre_ingtecnico'] : ''), utf8_decode(isset($datos['nombre_recibido']) ? $datos['nombre_recibido'] : ''), utf8_decode(isset($datos['nombre_area']) ? $datos['nombre_area'] : '')),
-        array('', '', '')
     );
 
     // Define el ancho de cada columna
@@ -250,6 +292,9 @@ function generarPDF($datos)
     // Establece la fuente y el tamaño de fuente para el texto de la tabla
     $pdf->SetFont('Arial', 'B', $tamanio_fuente);
 
+    // Variable para almacenar la posición Y de las firmas
+    $posicion_y_firma = 0;
+
     // Itera sobre los datos para crear la tabla
     foreach ($datos as $indice_fila => $fila) {
         foreach ($fila as $indice => $valor) {
@@ -258,10 +303,10 @@ function generarPDF($datos)
             $y = $pdf->GetY();
 
             // Define la altura de la celda dependiendo de si es la primera fila o no
-            $altura_celda = $indice_fila == 0 ? 10 : 20;
+            $altura_celda = $indice_fila == 0 ? 10 : 30;
 
             // Verifica si $valor no está vacío y si no está en las últimas dos filas, luego establece el color de relleno
-            if (!empty($valor) && $indice_fila < count($datos) - 2) {
+            if (!empty($valor) && $indice_fila < count($datos) - 1) {
                 $pdf->SetFillColor(152, 205, 255);
                 // Agrega la celda con el valor actual y el color de relleno
                 $pdf->Cell($ancho_columna, $altura_celda, $valor, 1, 0, 'C', true);
@@ -272,11 +317,31 @@ function generarPDF($datos)
 
             // Mueve la posición a la siguiente columna
             $pdf->SetXY($x + $ancho_columna + $espacio_entre_columnas, $y);
+
+            // Guarda la posición Y de la última fila para las firmas
+            if ($indice_fila == count($datos) - 1) {
+                $posicion_y_firma = $pdf->GetY();
+            }
         }
-        
+
         // Salta a la siguiente línea
         $pdf->Ln();
     }
+
+    // Ajusta la posición Y de las firmas para que estén más abajo pero dentro de las celdas
+    $posicion_y_firma += 16;
+
+    // Agrega las imágenes de las firmas en la última fila
+    if (!empty($rutaFirmaTecnico)) {
+        $pdf->Image($rutaFirmaTecnico, $pdf->GetX() + 10, $posicion_y_firma, 30, 0);
+    }
+    $pdf->SetX($pdf->GetX() + $ancho_columna + $espacio_entre_columnas);
+
+    if (!empty($rutaFirmaRecibido)) {
+        $pdf->Image($rutaFirmaRecibido, $pdf->GetX() + 10, $posicion_y_firma, 30, 0);
+    }
+
+    $pdf->AddPage();
 
     // Título
     $pdf->SetFont('Arial', 'B', 7);$pdf->SetFillColor(152, 205, 255);
@@ -289,23 +354,47 @@ function generarPDF($datos)
     $pdf->SetFont('Arial', 'B', 7);
     $pdf->SetFillColor(152, 205, 255);
     $pdf->Cell(190, 10, 'ANTES', 1, 1, 'C', true);
-    $pdf->Cell(63.3, 70, '', 1, 0);
-    $pdf->Cell(63.3, 70, '', 1, 0);
-    $pdf->Cell(63.3, 70, '', 1, 1);
+    $pdf->Cell(63.3, 70, '', 1, 0, 'C', false);
+    $pdf->Cell(63.3, 70, '', 1, 0, 'C', false);
+    $pdf->Cell(63.3, 70, '', 1, 1, 'C', false);
+
+    $pdf->Image($evidencia_antes1, $pdf->GetX(), $pdf->GetY() - 70, 63.3, 70); // Imagen 1
+    $pdf->SetX($pdf->GetX() + 63.3);
+    $pdf->Image($evidencia_antes2, $pdf->GetX(), $pdf->GetY() - 70, 63.3, 70); // Imagen 2
+    $pdf->SetX($pdf->GetX() + 63.3);
+    $pdf->Image($evidencia_antes3, $pdf->GetX(), $pdf->GetY() - 70, 63.3, 70); // Imagen 3
+
+    // Set X position before "DURANTE"
+    $pdf->SetX(10);
 
     // DURANTE
     $pdf->SetFont('Arial', 'B', 7);
     $pdf->Cell(190, 10, 'DURANTE', 1, 1, 'C', true);
-    $pdf->Cell(63.3, 70, '', 1, 0);
-    $pdf->Cell(63.3, 70, '', 1, 0);
-    $pdf->Cell(63.3, 70, '', 1, 1);
+    $pdf->Cell(63.3, 70, '', 1, 0, 'C', false);
+    $pdf->Cell(63.3, 70, '', 1, 0, 'C', false);
+    $pdf->Cell(63.3, 70, '', 1, 1, 'C', false);
 
+    $pdf->Image($evidencia_durante1, $pdf->GetX(), $pdf->GetY() - 70, 63.3, 70); // Imagen 1
+    $pdf->SetX($pdf->GetX() + 63.3);
+    $pdf->Image($evidencia_durante2, $pdf->GetX(), $pdf->GetY() - 70, 63.3, 70); // Imagen 2
+    $pdf->SetX($pdf->GetX() + 63.3);
+    $pdf->Image($evidencia_durante3, $pdf->GetX(), $pdf->GetY() - 70, 63.3, 70); // Imagen 3
+
+    // Set X position before "DESPUES"
+    $pdf->SetX(10);
+    
     // DESPUES
     $pdf->SetFont('Arial', 'B', 7);
     $pdf->Cell(190, 10, 'DESPUES', 1, 1, 'C', true);
-    $pdf->Cell(63.3, 70, '', 1, 0);
-    $pdf->Cell(63.3, 70, '', 1, 0);
-    $pdf->Cell(63.3, 70, '', 1, 1);
+    $pdf->Cell(63.3, 70, '', 1, 0, 'C', false);
+    $pdf->Cell(63.3, 70, '', 1, 0, 'C', false);
+    $pdf->Cell(63.3, 70, '', 1, 1, 'C', false);
+
+    $pdf->Image($evidencia_despues1, $pdf->GetX(), $pdf->GetY() - 70, 63.3, 70); // Imagen 1
+    $pdf->SetX($pdf->GetX() + 63.3);
+    $pdf->Image($evidencia_despues2, $pdf->GetX(), $pdf->GetY() - 70, 63.3, 70); // Imagen 2
+    $pdf->SetX($pdf->GetX() + 63.3);
+    $pdf->Image($evidencia_despues3, $pdf->GetX(), $pdf->GetY() - 70, 63.3, 70); // Imagen 3
 
 
 
@@ -314,13 +403,6 @@ function generarPDF($datos)
     $pdf->Output();
 }
 
-    // Obtener los datos del formulario de la base de datos
-    $con = mysqli_connect("localhost", "root", "", "kge");
-    $folio = isset($_GET['folio']) ? $_GET['folio'] : '';
-    $sql = "SELECT * FROM tbl_serviciosgenerales WHERE folio = '$folio'";
-    $result = mysqli_query($con, $sql);
-    $row = mysqli_fetch_assoc($result);
-
     // Generar el PDF con los datos obtenidos
-    generarPDF($row);
-?>
+    generarPDF($row, $ruta_antes1, $ruta_antes2, $ruta_antes3, $ruta_durante1, $ruta_durante2, $ruta_durante3, $ruta_despues1, $ruta_despues2, $ruta_despues3, $rutaFirmaTecnico, $rutaFirmaRecibido, $evidencia_antes1, $evidencia_antes2, $evidencia_antes3, $evidencia_durante1, $evidencia_durante2, $evidencia_durante3, $evidencia_despues1, $evidencia_despues2, $evidencia_despues3);
+    ?>

@@ -65,7 +65,6 @@
                         <a href="#" class="nav-item nav-link" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Agregar Servicio</a> <!-- no tiene contenido -->
                         <div class="dropdown-menu bg-transparent border-0">
                             <!-- <a href="../servicios/acondicionadores.php" class="dropdown-item">Acondicionadores de Voltaje</a> -->
-                            <a href="../servicios/firma.php" class="dropdown-item">firma</a>
                             <a href="../servicios/serviciointerno.php" class="dropdown-item">Servicios</a>
                         </div>
                     </div>
